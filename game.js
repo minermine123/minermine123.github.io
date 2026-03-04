@@ -4,12 +4,18 @@ const ctx = canvas.getContext('2d');
 
 // Set initial canvas size based on screen
 function setCanvasSize() {
-    const maxWidth = 800;
-    const maxHeight = 600;
+    const maxWidth = 1200;
+    const maxHeight = 800;
     const aspectRatio = maxWidth / maxHeight;
     
-    const containerWidth = Math.min(window.innerWidth - 60, maxWidth);
-    const containerHeight = window.innerHeight - 400; // Leave room for controls
+    // Calculate available space (leaving room for header, controls, padding)
+    const isMobileView = window.innerWidth <= 768;
+    const padding = isMobileView ? 40 : 60;
+    const headerHeight = isMobileView ? 180 : 200; // Header + stats + info
+    const controlsHeight = isMobileView ? 220 : 0; // Mobile controls if needed
+    
+    const containerWidth = Math.min(window.innerWidth - padding, maxWidth);
+    const containerHeight = window.innerHeight - headerHeight - controlsHeight;
     
     if (containerWidth / aspectRatio <= containerHeight) {
         canvas.width = containerWidth;
@@ -18,6 +24,10 @@ function setCanvasSize() {
         canvas.height = Math.min(containerHeight, maxHeight);
         canvas.width = canvas.height * aspectRatio;
     }
+    
+    // Ensure minimum size for playability
+    if (canvas.width < 320) canvas.width = 320;
+    if (canvas.height < 240) canvas.height = 240;
 }
 
 setCanvasSize();
