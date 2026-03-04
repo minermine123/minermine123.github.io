@@ -85,15 +85,24 @@ function detectMobile() {
 function init() {
     isMobile = detectMobile();
     
-    // Show/hide mobile controls
+    // Show/hide mobile controls and add life button
     const mobileControls = document.getElementById('mobileControls');
     const controlsText = document.getElementById('controlsText');
+    const addLifeBtn = document.getElementById('addLifeBtn');
     
     if (isMobile) {
         mobileControls.classList.remove('hidden');
+        addLifeBtn.classList.remove('hidden');
         controlsText.textContent = 'Avoid the heat! 🔥 Drag the kernel or use controls below!';
         setupMobileControls();
     }
+    
+    // Add life button click handler
+    addLifeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        lives++;
+        updateLivesDisplay();
+    });
     
     // Keyboard controls
     document.addEventListener('keydown', (e) => {
@@ -327,13 +336,16 @@ function handleResize() {
     if (wasMobile !== isMobile) {
         const mobileControls = document.getElementById('mobileControls');
         const controlsText = document.getElementById('controlsText');
+        const addLifeBtn = document.getElementById('addLifeBtn');
         
         if (isMobile) {
             mobileControls.classList.remove('hidden');
+            addLifeBtn.classList.remove('hidden');
             controlsText.textContent = 'Avoid the heat! 🔥 Drag the kernel or use controls below!';
             setupMobileControls();
         } else {
             mobileControls.classList.add('hidden');
+            addLifeBtn.classList.add('hidden');
             controlsText.textContent = 'Use Arrow Keys or WASD to move! Avoid the heat! 🔥';
         }
     }
