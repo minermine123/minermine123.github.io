@@ -69,6 +69,12 @@ const mobileInput = {
     right: false
 };
 
+// Touch drag controls
+let touchActive = false;
+let touchId = null;
+let lastTouchX = 0;
+let lastTouchY = 0;
+
 // Detect mobile device
 function detectMobile() {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
@@ -85,7 +91,7 @@ function init() {
     
     if (isMobile) {
         mobileControls.classList.remove('hidden');
-        controlsText.textContent = 'Avoid the heat! 🔥 Use the controls below!';
+        controlsText.textContent = 'Avoid the heat! 🔥 Drag the kernel or use controls below!';
         setupMobileControls();
     }
     
@@ -161,6 +167,134 @@ function setupMobileControls() {
             mobileInput[direction] = false;
         });
     });
+    
+    // Add touch drag controls on canvas
+    setupTouchDrag();
+}
+
+// Setup touch drag on canvas
+function setupTouchDrag() {
+    // Touch events
+    canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
+    canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
+    canvas.addEventListener('touchend', handleTouchEnd, { passive: false });
+    canvas.addEventListener('touchcancel', handleTouchEnd, { passive: false });
+    
+    // Mouse events for desktop testing
+    canvas.addEventListener('mousedown', handleMouseDown);
+    canvas.addEventListener('mousemove', handleMouseMove);
+    canvas.addEventListener('mouseup', handleMouseUp);
+    canvas.addEventListener('mouseleave', handleMouseUp);
+}
+
+// Get canvas coordinates from touch/mouse event
+function getCanvasCoordinates(clientX, clientY) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    
+    return {
+        x: (clientX - rect.left) * scaleX,
+        y: (clientY - rect.top) * scaleY
+    };
+}
+
+// Check if touch is on player
+function isTouchOnPlayer(x, y) {
+    const dist = Math.hypot(x - player.x, y - player.y);
+    return dist <= player.size + 10; // Add a bit of tolerance
+}
+
+// Touch event handlers
+function handleTouchStart(e) {
+    e.preventDefault();
+    
+    if (touchActive) return; // Already tracking a touch
+    
+    const touch = e.changedTouches[0];
+    const coords = getCanvasCoordinates(touch.clientX, touch.clientY);
+    
+    if (isTouchOnPlayer(coords.x, coords.y)) {
+        touchActive = true;
+        touchId = touch.identifier;
+        lastTouchX = coords.x;
+        lastTouchY = coords.y;
+    }
+}
+
+function handleTouchMove(e) {
+    e.preventDefault();
+    
+    if (!touchActive) return;
+    
+    // Find the touch we're tracking
+    for (let i = 0; i < e.changedTouches.length; i++) {
+        const touch = e.changedTouches[i];
+        if (touch.identifier === touchId) {
+            const coords = getCanvasCoordinates(touch.clientX, touch.clientY);
+            
+            // Move player to touch position
+            player.x = coords.x;
+            player.y = coords.y;
+            
+            // Keep player in bounds
+            if (player.x < player.size) player.x = player.size;
+            if (player.x > canvas.width - player.size) player.x = canvas.width - player.size;
+            if (player.y < player.size) player.y = player.size;
+            if (player.y > canvas.height - player.size) player.y = canvas.height - player.size;
+            
+            lastTouchX = coords.x;
+            lastTouchY = coords.y;
+            break;
+        }
+    }
+}
+
+function handleTouchEnd(e) {
+    e.preventDefault();
+    
+    // Check if our tracked touch ended
+    for (let i = 0; i < e.changedTouches.length; i++) {
+        if (e.changedTouches[i].identifier === touchId) {
+            touchActive = false;
+            touchId = null;
+            break;
+        }
+    }
+}
+
+// Mouse event handlers (for desktop testing)
+function handleMouseDown(e) {
+    const coords = getCanvasCoordinates(e.clientX, e.clientY);
+    
+    if (isTouchOnPlayer(coords.x, coords.y)) {
+        touchActive = true;
+        lastTouchX = coords.x;
+        lastTouchY = coords.y;
+    }
+}
+
+function handleMouseMove(e) {
+    if (!touchActive) return;
+    
+    const coords = getCanvasCoordinates(e.clientX, e.clientY);
+    
+    // Move player to mouse position
+    player.x = coords.x;
+    player.y = coords.y;
+    
+    // Keep player in bounds
+    if (player.x < player.size) player.x = player.size;
+    if (player.x > canvas.width - player.size) player.x = canvas.width - player.size;
+    if (player.y < player.size) player.y = player.size;
+    if (player.y > canvas.height - player.size) player.y = canvas.height - player.size;
+    
+    lastTouchX = coords.x;
+    lastTouchY = coords.y;
+}
+
+function handleMouseUp(e) {
+    touchActive = false;
 }
 
 // Handle window resize
@@ -196,7 +330,7 @@ function handleResize() {
         
         if (isMobile) {
             mobileControls.classList.remove('hidden');
-            controlsText.textContent = 'Avoid the heat! 🔥 Use the controls below!';
+            controlsText.textContent = 'Avoid the heat! 🔥 Drag the kernel or use controls below!';
             setupMobileControls();
         } else {
             mobileControls.classList.add('hidden');
@@ -350,6 +484,12 @@ function updateWaterDrops() {
 
 // Draw player (kernel)
 function drawPlayer() {
+    // Add glow effect if touch is active
+    if (touchActive) {
+        ctx.shadowBlur = 20;
+        ctx.shadowColor = '#f9ca24';
+    }
+    
     ctx.fillStyle = '#f9ca24';
     ctx.strokeStyle = '#f0932b';
     ctx.lineWidth = 3;
@@ -359,6 +499,9 @@ function drawPlayer() {
     ctx.arc(player.x, player.y, player.size, 0, Math.PI * 2);
     ctx.fill();
     ctx.stroke();
+    
+    // Reset shadow
+    ctx.shadowBlur = 0;
     
     // Add detail
     ctx.fillStyle = '#f0932b';
@@ -491,6 +634,10 @@ function restartGame() {
     mobileInput.down = false;
     mobileInput.left = false;
     mobileInput.right = false;
+    
+    // Reset touch drag
+    touchActive = false;
+    touchId = null;
     
     player.x = canvas.width / 2;
     player.y = canvas.height / 2;
