@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Don't Get Popped! 🍿</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -17,10 +17,21 @@
         </div>
         
         <div class="game-info">
-            <p>Use Arrow Keys or WASD to move! Avoid the heat! 🔥</p>
+            <p id="controlsText">Use Arrow Keys or WASD to move! Avoid the heat! 🔥</p>
         </div>
         
-        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        <canvas id="gameCanvas"></canvas>
+        
+        <!-- Mobile Controls -->
+        <div id="mobileControls" class="mobile-controls hidden">
+            <div class="dpad">
+                <button class="dpad-btn dpad-up" data-direction="up">▲</button>
+                <button class="dpad-btn dpad-down" data-direction="down">▼</button>
+                <button class="dpad-btn dpad-left" data-direction="left">◄</button>
+                <button class="dpad-btn dpad-right" data-direction="right">►</button>
+                <div class="dpad-center"></div>
+            </div>
+        </div>
         
         <div id="gameOver" class="game-over hidden">
             <h2>Game Over! 🍿</h2>

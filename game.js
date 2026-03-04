@@ -2,11 +2,32 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
+// Set initial canvas size based on screen
+function setCanvasSize() {
+    const maxWidth = 800;
+    const maxHeight = 600;
+    const aspectRatio = maxWidth / maxHeight;
+    
+    const containerWidth = Math.min(window.innerWidth - 60, maxWidth);
+    const containerHeight = window.innerHeight - 400; // Leave room for controls
+    
+    if (containerWidth / aspectRatio <= containerHeight) {
+        canvas.width = containerWidth;
+        canvas.height = containerWidth / aspectRatio;
+    } else {
+        canvas.height = Math.min(containerHeight, maxHeight);
+        canvas.width = canvas.height * aspectRatio;
+    }
+}
+
+setCanvasSize();
+
 // Game state
 let gameRunning = true;
 let score = 0;
 let lives = 3;
 let gameSpeed = 1;
+let isMobile = false;
 
 // Player (popcorn kernel)
 const player = {
@@ -31,9 +52,34 @@ const maxWaterDrops = 8;
 // Controls
 const keys = {};
 let spacePressed = false;
+const mobileInput = {
+    up: false,
+    down: false,
+    left: false,
+    right: false
+};
+
+// Detect mobile device
+function detectMobile() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+           window.innerWidth <= 768;
+}
 
 // Initialize game
 function init() {
+    isMobile = detectMobile();
+    
+    // Show/hide mobile controls
+    const mobileControls = document.getElementById('mobileControls');
+    const controlsText = document.getElementById('controlsText');
+    
+    if (isMobile) {
+        mobileControls.classList.remove('hidden');
+        controlsText.textContent = 'Avoid the heat! 🔥 Use the controls below!';
+        setupMobileControls();
+    }
+    
+    // Keyboard controls
     document.addEventListener('keydown', (e) => {
         keys[e.key] = true;
         
@@ -56,12 +102,97 @@ function init() {
     
     document.getElementById('restartBtn').addEventListener('click', restartGame);
     
+    // Handle window resize
+    window.addEventListener('resize', handleResize);
+    
     // Create initial heat sources
     for (let i = 0; i < 3; i++) {
         createHeatSource();
     }
     
     gameLoop();
+}
+
+// Setup mobile controls
+function setupMobileControls() {
+    const buttons = document.querySelectorAll('.dpad-btn');
+    
+    buttons.forEach(button => {
+        const direction = button.dataset.direction;
+        
+        // Touch events
+        button.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            mobileInput[direction] = true;
+        });
+        
+        button.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            mobileInput[direction] = false;
+        });
+        
+        button.addEventListener('touchcancel', (e) => {
+            e.preventDefault();
+            mobileInput[direction] = false;
+        });
+        
+        // Mouse events (for testing on desktop)
+        button.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            mobileInput[direction] = true;
+        });
+        
+        button.addEventListener('mouseup', (e) => {
+            e.preventDefault();
+            mobileInput[direction] = false;
+        });
+        
+        button.addEventListener('mouseleave', (e) => {
+            mobileInput[direction] = false;
+        });
+    });
+}
+
+// Handle window resize
+function handleResize() {
+    const oldWidth = canvas.width;
+    const oldHeight = canvas.height;
+    
+    setCanvasSize();
+    
+    // Adjust player position proportionally
+    player.x = (player.x / oldWidth) * canvas.width;
+    player.y = (player.y / oldHeight) * canvas.height;
+    
+    // Adjust heat sources
+    heatSources.forEach(heat => {
+        heat.x = (heat.x / oldWidth) * canvas.width;
+        heat.y = (heat.y / oldHeight) * canvas.height;
+    });
+    
+    // Adjust water drops
+    waterDrops.forEach(drop => {
+        drop.x = (drop.x / oldWidth) * canvas.width;
+        drop.y = (drop.y / oldHeight) * canvas.height;
+    });
+    
+    // Check if device type changed
+    const wasMobile = isMobile;
+    isMobile = detectMobile();
+    
+    if (wasMobile !== isMobile) {
+        const mobileControls = document.getElementById('mobileControls');
+        const controlsText = document.getElementById('controlsText');
+        
+        if (isMobile) {
+            mobileControls.classList.remove('hidden');
+            controlsText.textContent = 'Avoid the heat! 🔥 Use the controls below!';
+            setupMobileControls();
+        } else {
+            mobileControls.classList.add('hidden');
+            controlsText.textContent = 'Use Arrow Keys or WASD to move! Avoid the heat! 🔥';
+        }
+    }
 }
 
 // Create heat source
@@ -114,10 +245,17 @@ function updatePlayer() {
     player.dx = 0;
     player.dy = 0;
     
+    // Keyboard controls
     if (keys['ArrowUp'] || keys['w'] || keys['W']) player.dy = -player.speed;
     if (keys['ArrowDown'] || keys['s'] || keys['S']) player.dy = player.speed;
     if (keys['ArrowLeft'] || keys['a'] || keys['A']) player.dx = -player.speed;
     if (keys['ArrowRight'] || keys['d'] || keys['D']) player.dx = player.speed;
+    
+    // Mobile controls
+    if (mobileInput.up) player.dy = -player.speed;
+    if (mobileInput.down) player.dy = player.speed;
+    if (mobileInput.left) player.dx = -player.speed;
+    if (mobileInput.right) player.dx = player.speed;
     
     // Update position
     player.x += player.dx;
@@ -337,6 +475,12 @@ function restartGame() {
     gameSpeed = 1;
     heatSources = [];
     waterDrops = [];
+    
+    // Reset mobile input
+    mobileInput.up = false;
+    mobileInput.down = false;
+    mobileInput.left = false;
+    mobileInput.right = false;
     
     player.x = canvas.width / 2;
     player.y = canvas.height / 2;
