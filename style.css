@@ -247,6 +247,8 @@ body {
         padding: 10px;
         align-items: flex-start;
         padding-top: 10px;
+        min-height: auto;
+        overflow: auto;
     }
     
     .game-container {
