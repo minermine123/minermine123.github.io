@@ -7,24 +7,33 @@ function setCanvasSize() {
     const maxWidth = 1200;
     const maxHeight = 800;
     const aspectRatio = maxWidth / maxHeight;
-    
+
     // Calculate available space (leaving room for header, controls, padding)
     const isMobileView = window.innerWidth <= 768;
     const padding = isMobileView ? 40 : 60;
-    const headerHeight = isMobileView ? 180 : 200; // Header + stats + info
-    const controlsHeight = isMobileView ? 220 : 0; // Mobile controls if needed
-    
+
     const containerWidth = Math.min(window.innerWidth - padding, maxWidth);
-    const containerHeight = window.innerHeight - headerHeight - controlsHeight;
-    
-    if (containerWidth / aspectRatio <= containerHeight) {
+
+    // On mobile, allow scrolling so use full aspect ratio height
+    // On desktop, constrain to viewport
+    if (isMobileView) {
+        // Mobile: use full aspect ratio, allow page to scroll
         canvas.width = containerWidth;
         canvas.height = containerWidth / aspectRatio;
     } else {
-        canvas.height = Math.min(containerHeight, maxHeight);
-        canvas.width = canvas.height * aspectRatio;
+        // Desktop: fit within viewport
+        const headerHeight = 200; // Header + stats + info
+        const containerHeight = window.innerHeight - headerHeight;
+        
+        if (containerWidth / aspectRatio <= containerHeight) {
+            canvas.width = containerWidth;
+            canvas.height = containerWidth / aspectRatio;
+        } else {
+            canvas.height = Math.min(containerHeight, maxHeight);
+            canvas.width = canvas.height * aspectRatio;
+        }
     }
-    
+
     // Ensure minimum size for playability
     if (canvas.width < 320) canvas.width = 320;
     if (canvas.height < 240) canvas.height = 240;
