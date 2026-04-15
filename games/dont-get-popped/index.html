@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Don't Get Popped! 🍿</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <h1><span class="title-text">🌽 Don't Get Popped! 🌽</span><span class="byline">by Rohan M.</span></h1>
+            <div class="stats">
+                <div class="score">Score: <span id="score">0</span></div>
+                <div class="lives">Lives: <span id="lives">3</span></div>
+                <button id="addLifeBtn" class="add-life-btn hidden">+ Life</button>
+            </div>
+            <a href="../../index.html" class="back-btn">← Back to Games</a>
+        </div>
+        
+        <div class="game-info">
+            <p id="controlsText">Use Arrow Keys or WASD to move! Avoid the heat! 🔥 Watch out for ice! ❄️</p>
+        </div>
+        
+        <canvas id="gameCanvas"></canvas>
+        
+        <!-- Mobile Controls -->
+        <div id="mobileControls" class="mobile-controls hidden">
+            <div class="dpad">
+                <button class="dpad-btn dpad-up" data-direction="up">▲</button>
+                <button class="dpad-btn dpad-down" data-direction="down">▼</button>
+                <button class="dpad-btn dpad-left" data-direction="left">◄</button>
+                <button class="dpad-btn dpad-right" data-direction="right">►</button>
+                <div class="dpad-center"></div>
+            </div>
+        </div>
+        
+        <div id="gameOver" class="game-over hidden">
+            <h2>Game Over! 🍿</h2>
+            <p>You got popped!</p>
+            <p>Final Score: <span id="finalScore">0</span></p>
+            <button id="restartBtn">Play Again</button>
+        </div>
+    </div>
+    
+    <script src="game.js"></script>
+</body>
+</html>

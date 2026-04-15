@@ -2,46 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Don't Get Popped! 🍿</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rohan's Games 🎮</title>
+    <link rel="stylesheet" href="homepage.css">
 </head>
 <body>
-    <div class="game-container">
-        <div class="header">
-            <h1><span class="title-text">🌽 Don't Get Popped! 🌽</span><span class="byline">by Rohan M.</span></h1>
-            <div class="stats">
-                <div class="score">Score: <span id="score">0</span></div>
-                <div class="lives">Lives: <span id="lives">3</span></div>
-                <button id="addLifeBtn" class="add-life-btn hidden">+ Life</button>
+    <div class="main-container">
+        <header class="site-header">
+            <h1>🎮 Rohan's Games 🎮</h1>
+            <p class="subtitle">Fun browser games to play!</p>
+            <p class="byline">Created by Rohan M.</p>
+        </header>
+
+        <section class="games-section">
+            <h2>Choose a Game</h2>
+            
+            <div class="games-grid">
+                <!-- Game 1: Don't Get Popped -->
+                <a href="games/dont-get-popped/index.html" class="game-card">
+                    <div class="game-icon">🍿</div>
+                    <h3>Don't Get Popped!</h3>
+                    <p>Dodge heat and water as a brave popcorn kernel!</p>
+                    <div class="play-btn">Play Now</div>
+                </a>
+
+                <!-- Game 2: Donut Clicker -->
+                <a href="games/click-frenzy/index.html" class="game-card">
+                    <div class="game-icon">🍩</div>
+                    <h3>Donut Clicker!</h3>
+                    <p>Click the donut and buy auto-clickers to get more points!</p>
+                    <div class="play-btn">Play Now</div>
+                </a>
+
+                <!-- Placeholder for future game 3 -->
+                <div class="game-card coming-soon">
+                    <div class="game-icon">🚀</div>
+                    <h3>Game 3</h3>
+                    <p>More fun on the way!</p>
+                    <div class="coming-soon-badge">Coming Soon</div>
+                </div>
             </div>
-        </div>
-        
-        <div class="game-info">
-            <p id="controlsText">Use Arrow Keys or WASD to move! Avoid the heat! 🔥</p>
-        </div>
-        
-        <canvas id="gameCanvas"></canvas>
-        
-        <!-- Mobile Controls -->
-        <div id="mobileControls" class="mobile-controls hidden">
-            <div class="dpad">
-                <button class="dpad-btn dpad-up" data-direction="up">▲</button>
-                <button class="dpad-btn dpad-down" data-direction="down">▼</button>
-                <button class="dpad-btn dpad-left" data-direction="left">◄</button>
-                <button class="dpad-btn dpad-right" data-direction="right">►</button>
-                <div class="dpad-center"></div>
-            </div>
-        </div>
-        
-        <div id="gameOver" class="game-over hidden">
-            <h2>Game Over! 🍿</h2>
-            <p>You got popped!</p>
-            <p>Final Score: <span id="finalScore">0</span></p>
-            <button id="restartBtn">Play Again</button>
-        </div>
+        </section>
+
+        <footer class="footer">
+            <p>Built with ❤️ by Rohan M.</p>
+            <p>Visit <a href="https://minermine.fun">minermine.fun</a></p>
+        </footer>
     </div>
-    
-    <script src="game.js"></script>
 </body>
 </html>

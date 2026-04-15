@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Donut Clicker! 🍩</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <h1><span class="title-text">🍩 Donut Clicker! 🍩</span><span class="byline">by Rohan M.</span></h1>
+            <div class="stats">
+                <div class="score">Points: <span id="points">0</span></div>
+            </div>
+            <a href="../../index.html" class="back-btn">← Back to Games</a>
+        </div>
+        
+        <div class="game-info">
+            <p>Click the donut to get points! Buy auto-clickers in the shop! 🍩</p>
+        </div>
+        
+        <div class="game-area">
+            <!-- Main clicker -->
+            <div class="clicker-section">
+                <h2>Click Me!</h2>
+                <button id="donutBtn" class="donut-btn">
+                    <span class="donut-emoji">🍩</span>
+                </button>
+                <div class="click-info">Click = +1 Point</div>
+            </div>
+            
+            <!-- Shop -->
+            <div class="shop-section">
+                <h2>🛒 Shop</h2>
+                
+                <div class="shop-item">
+                    <div class="shop-icon">🤖</div>
+                    <div class="shop-info">
+                        <div class="shop-name">Auto-Clicker</div>
+                        <div class="shop-desc">Clicks the donut for you automatically (1 point per second)</div>
+                        <button id="buyAutoClicker" class="buy-btn">
+                            Buy for <span id="autoClickerCost">10</span> Points
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Particles container -->
+        <div id="particlesContainer" class="particles-container"></div>
+        
+        <!-- Stats panel -->
+        <div class="stats-panel">
+            <h3>📊 Statistics</h3>
+            <div class="stat-item">Total Clicks: <span id="totalClicks">0</span></div>
+            <div class="stat-item">Auto-Clickers Owned: <span id="autoClickers">0</span></div>
+        </div>
+    </div>
+    
+    <script src="game.js"></script>
+</body>
+</html>
