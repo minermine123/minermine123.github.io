@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>House Tycoon! 🏠</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <h1><span class="title-text">🏠 House Tycoon! 🏠</span><span class="byline">by Rohan M.</span></h1>
+            <div class="stats">
+                <div class="money">💰 Money: $<span id="money">0</span></div>
+                <div class="void-science">✨ Void Science: <span id="voidScience">0</span> <span class="vs-rate" id="vsRate">(+0/s)</span></div>
+            </div>
+            <a href="../../index.html" class="back-btn">← Back to Games</a>
+        </div>
+        
+        <div class="game-info">
+            <p>🎯 <strong>How to Play:</strong> You start with $100. Hire workers from 5 businesses to earn passive income! Press <strong>SPACEBAR</strong> to generate Void Science for powerful upgrades! ✨</p>
+            <div class="tutorial-tips">
+                <span class="tip">💡 Tip: Start by hiring a Heating worker ($50)</span>
+                <span class="tip">💡 Press SPACEBAR to earn Void Science</span>
+                <span class="tip">💡 Spend VS to hire Void Services workers (they generate more VS!)</span>
+            </div>
+        </div>
+        
+        <div class="game-area">
+            <!-- Businesses Section -->
+            <div class="businesses-section">
+                <h2>🏢 Your Businesses</h2>
+                
+                <div class="business-card" data-business="heating">
+                    <div class="business-header">
+                        <div class="business-icon">🔥</div>
+                        <div class="business-info">
+                            <div class="business-name">Heating Services</div>
+                            <div class="business-desc">Install and maintain heating systems</div>
+                        </div>
+                    </div>
+                    <div class="business-stats">
+                        <div class="stat">Workers: <span class="workers">0</span></div>
+                        <div class="stat">Income: $<span class="income">5</span>/s</div>
+                        <div class="stat">Speed: <span class="speed">1</span>x</div>
+                        <div class="stat">Quality: <span class="quality">1</span>x</div>
+                    </div>
+                    <button class="hire-btn" data-business="heating">
+                        Hire Worker - $<span class="hire-cost">50</span>
+                    </button>
+                </div>
+
+                <div class="business-card" data-business="water">
+                    <div class="business-header">
+                        <div class="business-icon">💧</div>
+                        <div class="business-info">
+                            <div class="business-name">Water Services</div>
+                            <div class="business-desc">Plumbing and water system installation</div>
+                        </div>
+                    </div>
+                    <div class="business-stats">
+                        <div class="stat">Workers: <span class="workers">0</span></div>
+                        <div class="stat">Income: $<span class="income">7</span>/s</div>
+                        <div class="stat">Speed: <span class="speed">1</span>x</div>
+                        <div class="stat">Quality: <span class="quality">1</span>x</div>
+                    </div>
+                    <button class="hire-btn" data-business="water">
+                        Hire Worker - $<span class="hire-cost">75</span>
+                    </button>
+                </div>
+
+                <div class="business-card" data-business="construction">
+                    <div class="business-header">
+                        <div class="business-icon">🏗️</div>
+                        <div class="business-info">
+                            <div class="business-name">Construction & Remodeling</div>
+                            <div class="business-desc">Build and remodel houses</div>
+                        </div>
+                    </div>
+                    <div class="business-stats">
+                        <div class="stat">Workers: <span class="workers">0</span></div>
+                        <div class="stat">Income: $<span class="income">12</span>/s</div>
+                        <div class="stat">Speed: <span class="speed">1</span>x</div>
+                        <div class="stat">Quality: <span class="quality">1</span>x</div>
+                    </div>
+                    <button class="hire-btn" data-business="construction">
+                        Hire Worker - $<span class="hire-cost">120</span>
+                    </button>
+                </div>
+
+                <div class="business-card" data-business="electricity">
+                    <div class="business-header">
+                        <div class="business-icon">⚡</div>
+                        <div class="business-info">
+                            <div class="business-name">Electrical Services</div>
+                            <div class="business-desc">Install and maintain electrical systems</div>
+                        </div>
+                    </div>
+                    <div class="business-stats">
+                        <div class="stat">Workers: <span class="workers">0</span></div>
+                        <div class="stat">Income: $<span class="income">8</span>/s</div>
+                        <div class="stat">Speed: <span class="speed">1</span>x</div>
+                        <div class="stat">Quality: <span class="quality">1</span>x</div>
+                    </div>
+                    <button class="hire-btn" data-business="electricity">
+                        Hire Worker - $<span class="hire-cost">90</span>
+                    </button>
+                </div>
+
+                <div class="business-card void-business" data-business="void">
+                    <div class="business-header">
+                        <div class="business-icon">✨</div>
+                        <div class="business-info">
+                            <div class="business-name">Void Services</div>
+                            <div class="business-desc">Harness the void - generates Void Science automatically!</div>
+                        </div>
+                    </div>
+                    <div class="business-stats">
+                        <div class="stat">Workers: <span class="workers">0</span></div>
+                        <div class="stat void-stat">VS Income: <span class="income">0.1</span>/s per worker</div>
+                        <div class="stat">Speed: <span class="speed">1</span>x</div>
+                        <div class="stat">Quality: <span class="quality">1</span>x</div>
+                    </div>
+                    <button class="hire-btn void-hire-btn" data-business="void">
+                        Hire Worker - ✨<span class="hire-cost">1</span> VS
+                    </button>
+                </div>
+            </div>
+
+            <!-- Upgrades Section -->
+            <div class="upgrades-section">
+                <h2>⬆️ Upgrades</h2>
+                
+                <div class="upgrade-card">
+                    <div class="upgrade-icon">🚀</div>
+                    <div class="upgrade-info">
+                        <div class="upgrade-name">Speed Boost</div>
+                        <div class="upgrade-desc">Work faster and earn money quicker (+20% speed per level)</div>
+                        <div class="upgrade-level">Level: <span id="speedLevel">0</span></div>
+                    </div>
+                    <button id="buySpeed" class="upgrade-btn">
+                        Upgrade - $<span id="speedCost">200</span>
+                    </button>
+                </div>
+
+                <div class="upgrade-card">
+                    <div class="upgrade-icon">💰</div>
+                    <div class="upgrade-info">
+                        <div class="upgrade-name">Income Boost</div>
+                        <div class="upgrade-desc">Increase all business income (+25% income per level)</div>
+                        <div class="upgrade-level">Level: <span id="incomeLevel">0</span></div>
+                    </div>
+                    <button id="buyIncome" class="upgrade-btn">
+                        Upgrade - $<span id="incomeCost">250</span>
+                    </button>
+                </div>
+
+                <div class="upgrade-card">
+                    <div class="upgrade-icon">🛠️</div>
+                    <div class="upgrade-info">
+                        <div class="upgrade-name">Equipment Quality</div>
+                        <div class="upgrade-desc">Better tools mean better results (+15% quality per level)</div>
+                        <div class="upgrade-level">Level: <span id="equipmentLevel">0</span></div>
+                    </div>
+                    <button id="buyEquipment" class="upgrade-btn">
+                        Upgrade - $<span id="equipmentCost">300</span>
+                    </button>
+                </div>
+
+                <!-- Void Science Shop -->
+                <div class="void-section">
+                    <h3>✨ Void Science Shop</h3>
+                    <p class="void-desc"><strong>Press SPACEBAR to earn Void Science!</strong> Spend it here on game-changing upgrades:</p>
+                    
+                    <div class="void-upgrade">
+                        <div class="void-upgrade-name">🌟 Reality Bender</div>
+                        <div class="void-upgrade-desc"><strong>2x ALL INCOME</strong> - Doubles money from all businesses permanently!</div>
+                        <button id="buyReality" class="void-btn">
+                            Buy - ✨<span id="realityCost">50</span> VS
+                        </button>
+                    </div>
+
+                    <div class="void-upgrade">
+                        <div class="void-upgrade-name">⏰ Time Warp</div>
+                        <div class="void-upgrade-desc"><strong>3x SPEED</strong> - Triples how fast you work permanently!</div>
+                        <button id="buyTimeWarp" class="void-btn">
+                            Buy - ✨<span id="timeWarpCost">75</span> VS
+                        </button>
+                    </div>
+
+                    <div class="void-upgrade">
+                        <div class="void-upgrade-name">💎 Golden Tools</div>
+                        <div class="void-upgrade-desc"><strong>3x QUALITY</strong> - Triples equipment quality bonus permanently!</div>
+                        <button id="buyGoldenTools" class="void-btn">
+                            Buy - ✨<span id="goldenToolsCost">100</span> VS
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Panel -->
+        <div class="stats-panel">
+            <h3>📊 Business Statistics</h3>
+            <div class="stat-item">Total Income: $<span id="totalIncome">0</span>/s</div>
+            <div class="stat-item">Total Workers: <span id="totalWorkers">0</span></div>
+            <div class="stat-item">Void Science Generated: <span id="totalVoidScience">0</span></div>
+            <button id="resetGame" class="reset-btn">🔄 Reset Game</button>
+        </div>
+
+        <!-- Spacebar Indicator -->
+        <div id="spacebarIndicator" class="spacebar-indicator">
+            <div>Press <strong>SPACEBAR</strong> for Void Science! ✨</div>
+            <div class="vs-goal">Goal: Get 50 VS for Reality Bender (2x income!)</div>
+        </div>
+    </div>
+    
+    <script src="game.js"></script>
+</body>
+</html>
