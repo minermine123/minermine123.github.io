@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Element Mixer - Rohan's Games</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <header class="game-header">
+            <a href="../../index.html" class="back-btn">← Back to Games</a>
+            <h1>🧪 Element Mixer</h1>
+            <div class="stats">
+                <span class="stat">
+                    <span class="stat-label">Discovered:</span>
+                    <span id="discovered-count">4</span>/<span id="total-count">100+</span>
+                </span>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Left Sidebar: Element List -->
+            <aside class="sidebar">
+                <h2>Your Elements</h2>
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="🔍 Search elements...">
+                </div>
+                <div class="sort-buttons">
+                    <button class="sort-btn active" data-sort="time">By Time</button>
+                    <button class="sort-btn" data-sort="name">By Name</button>
+                </div>
+                <div id="element-list" class="element-list">
+                    <!-- Elements will be populated by JavaScript -->
+                </div>
+                <button id="clear-workspace" class="clear-btn">Clear Workspace</button>
+                <button id="reset-game" class="reset-btn">Reset Game</button>
+            </aside>
+
+            <!-- Center: Crafting Workspace -->
+            <main class="workspace">
+                <div class="workspace-header">
+                    <h3>Crafting Workspace</h3>
+                    <p class="instruction">Drag elements here and combine them!</p>
+                </div>
+                <div id="workspace" class="workspace-canvas">
+                    <div class="hint">
+                        <span class="hint-icon">💡</span>
+                        <p>Start by dragging elements from the left into this space!</p>
+                        <p class="hint-sub">Drag one element onto another to combine them</p>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Right Sidebar: Recent Discoveries -->
+            <aside class="discoveries">
+                <h2>Recent Discoveries</h2>
+                <div id="discoveries-list" class="discoveries-list">
+                    <p class="no-discoveries">No discoveries yet!<br>Start combining elements!</p>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Combination Result Popup -->
+        <div id="result-popup" class="result-popup hidden">
+            <div class="result-content">
+                <div class="result-icon">✨</div>
+                <div id="result-element" class="result-element"></div>
+                <div id="result-message" class="result-message"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
